@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+
+
+	<div class="container py-4">
+		<div class="card-title">
+			<a th:href="@{/listaProductos}" class="btn btn-primary btn-xs">Volver</a>
+		</div>
+		<div class="card bg-ligth">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				<h4 class="card-title"></h4>
+
+				<img th:if="${#strings.length(producto.foto) > 0}"
+					class="img-thumbnail rounded float-left" style="max-width: 25%"
+					th:src="@{'/uploads/' + ${producto.foto}}"
+					th:alt="${producto.foto}">
+				<ul class="list-group">
+					<li class="list-group-item" th:text="${producto.nombre}"></li>
+					<li class="list-group-item" th:text="${producto.cantidad}"></li>
+					<li class="list-group-item" th:text="${producto.precio}"></li>
+					<li class="list-group-item" th:text="${producto.creatAt}"></li>
+				</ul>
+
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

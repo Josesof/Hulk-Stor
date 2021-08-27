@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+
+<header th:replace="layout/layout :: header"></header>
+	<br>
+	<div class="container py-4">
+	
+	
+	<div class="card bg-ligth">
+	<div class="card-header" > Listado de Productos</div>
+	<div class="card-body">
+	     
+	     <div class="card-title">
+	     
+	     <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/producto}"  class="btn btn-secondary btn-xs">Crear producto</a>
+	     <a class="btn btn-outline-warning btn-xs"
+						th:href="@{'/listar' }"
+						th:text="'&laquo;volver'"></a>
+	     </div>	
+		
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th sec:authorize="hasRole('ROLE_USER')" >Detalle</th>
+					<th >Producto</th>
+					<th >Cantidad</th>
+					<th >Precio</th>
+					<th >Imagen</th>
+					<th >Fecha </th>
+					
+					<th sec:authorize="hasRole('ROLE_ADMIN')">editar</th>
+					<th sec:authorize="hasRole('ROLE_ADMIN')">eliminar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="producto:  ${productos}">
+					<td sec:authorize="hasRole('ROLE_USER')" ><a class="btn btn-primary btn-xs" th:href="@{/verProducto/} + ${producto.id}" th:text="Detalle"></a> </td>
+					<td th:text="${producto.nombre}"></td>
+					<td th:text="${producto.cantidad}"></td>
+					<td th:text="${producto.precio}"></td>
+					<td >
+						<img th:if="${#strings.length(producto.foto) > 0}"
+					class="img-thumbnail rounded  " style="max-width: 15%"
+					th:src="@{'/uploads/' + ${producto.foto}}"
+					th:alt="${producto.foto}">
+					</td>
+					<td th:text="${producto.creatAt}"></td>					
+					<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-primary btn-xs"
+						th:href="@{/producto/} + ${producto.id}" th:text="editar"></a></td>
+					<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-xs"
+						th:href="@{/eliminarP/} + ${producto.id}" th:text="eliminar"
+						onclick="return confirm('Esta seguro que desea eliminar')"></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<nav th:replace="paginator-nav :: paginator"></nav>
+		
+	</div>
+	</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
